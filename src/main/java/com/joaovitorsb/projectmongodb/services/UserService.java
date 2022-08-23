@@ -30,9 +30,6 @@ public class UserService {
     public UserModel insert(UserModel userModel){
         return userRepository.save(userModel);
     }
-    public UserModel fromDTO(UserDTO userDTO){
-        return new UserModel(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
-    }
     public void deleteById(String id){
         try{
             userRepository.deleteById(id);
@@ -41,6 +38,18 @@ public class UserService {
         }catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
-
+    }
+    public UserModel update(UserModel userModel){
+        UserModel newUserModel = findById(userModel.getId());
+        updateData(newUserModel, userModel);
+        return userRepository.save(newUserModel);
+    }
+    public void updateData(UserModel newUserModel, UserModel userModel){
+        newUserModel.setId(userModel.getId());
+        newUserModel.setName(userModel.getName());
+        newUserModel.setEmail(userModel.getEmail());
+    }
+    public UserModel fromDTO(UserDTO userDTO){
+        return new UserModel(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
     }
 }
