@@ -1,6 +1,9 @@
 package com.joaovitorsb.projectmongodb.controllers;
 
 import com.joaovitorsb.projectmongodb.models.UserModel;
+import com.joaovitorsb.projectmongodb.services.UserService;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +18,12 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public ResponseEntity<List<UserModel>> findAll(){
-        UserModel u1 = new UserModel("1", "Maria", "maria@gmail.com");
-        UserModel u2 = new UserModel("2", "Alex", "alex@gmail.com");
-        UserModel u3 = new UserModel("3", "Bob", "bob@gmail.com");
-        List<UserModel> list = new ArrayList<>();
-        list.addAll(Arrays.asList(u1, u2, u3));
+        List<UserModel> list = userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
