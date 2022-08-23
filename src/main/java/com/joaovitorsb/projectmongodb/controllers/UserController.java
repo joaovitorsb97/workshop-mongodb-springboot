@@ -32,8 +32,8 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable String id){
-        UserModel obj = userService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(obj));
+        UserModel userModel = userService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(userModel));
     }
 
     @PostMapping
@@ -42,6 +42,13 @@ public class UserController {
         userModel = userService.insert(userModel);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userModel.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable String id){
+        userService.deleteById(id);
+        return ResponseEntity.noContent().build();
+
     }
 
 
