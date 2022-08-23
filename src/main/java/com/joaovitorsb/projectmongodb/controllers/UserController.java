@@ -1,5 +1,6 @@
 package com.joaovitorsb.projectmongodb.controllers;
 
+import com.joaovitorsb.projectmongodb.dto.UserDTO;
 import com.joaovitorsb.projectmongodb.models.UserModel;
 import com.joaovitorsb.projectmongodb.services.UserService;
 import org.apache.catalina.User;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -22,9 +24,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserModel>> findAll(){
+    public ResponseEntity<List<UserDTO>> findAll(){
         List<UserModel> list = userService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        List<UserDTO> listDTO = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(listDTO);
     }
 
 }
