@@ -1,5 +1,7 @@
 package com.joaovitorsb.projectmongodb.models;
 
+import com.joaovitorsb.projectmongodb.dto.AuthorDTO;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -12,12 +14,12 @@ public class PostModel implements Serializable {
     private String title;
     private String body;
 
-    private UserModel author;
+    private AuthorDTO author;
 
     public PostModel() {
     }
 
-    public PostModel(String id, Date date, String title, String body, UserModel author) {
+    public PostModel(String id, Date date, String title, String body, AuthorDTO author) {
         this.id = id;
         this.date = date;
         this.title = title;
@@ -57,11 +59,11 @@ public class PostModel implements Serializable {
         this.body = body;
     }
 
-    public UserModel getAuthor() {
+    public AuthorDTO getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserModel author) {
+    public void setAuthor(AuthorDTO author) {
         this.author = author;
     }
 
