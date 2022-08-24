@@ -1,6 +1,7 @@
 package com.joaovitorsb.projectmongodb.controllers;
 
 import com.joaovitorsb.projectmongodb.dto.UserDTO;
+import com.joaovitorsb.projectmongodb.models.PostModel;
 import com.joaovitorsb.projectmongodb.models.UserModel;
 import com.joaovitorsb.projectmongodb.services.UserService;
 import org.apache.catalina.User;
@@ -36,6 +37,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(new UserDTO(userModel));
     }
 
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<PostModel>> findPosts(@PathVariable String id){
+        UserModel userModel = userService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(userModel.getPosts());
+    }
+    
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody UserDTO userDTO){
         UserModel userModel = userService.fromDTO(userDTO);
