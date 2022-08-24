@@ -1,6 +1,7 @@
 package com.joaovitorsb.projectmongodb.configs;
 
 import com.joaovitorsb.projectmongodb.dto.AuthorDTO;
+import com.joaovitorsb.projectmongodb.dto.CommentDTO;
 import com.joaovitorsb.projectmongodb.models.PostModel;
 import com.joaovitorsb.projectmongodb.models.UserModel;
 import com.joaovitorsb.projectmongodb.repositories.PostRepository;
@@ -37,13 +38,22 @@ public class Instatiation implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(maria, alex, bob));
 
+        CommentDTO comment1 = new CommentDTO("Boa viagem mano!", sdf.parse("21/03/2018"), new AuthorDTO(alex));
+        CommentDTO comment2 = new CommentDTO("Aproveite!", sdf.parse("22/03/2018"), new AuthorDTO(bob));
+        CommentDTO comment3 = new CommentDTO("Tenha um ótimo dia!", sdf.parse("23/03/2018"), new AuthorDTO(alex));
+
+
         PostModel post1 = new PostModel(null, sdf.parse("21/03/2018"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!", new AuthorDTO(maria));
         PostModel post2 = new PostModel(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria));
+
+        post1.getComments().addAll(Arrays.asList(comment1, comment2));
+        post2.getComments().add(comment3);
 
         postRepository.saveAll(Arrays.asList(post1, post2));
 
         maria.getPosts().addAll(Arrays.asList(post1, post2));
 
         userRepository.save(maria);
+
     }
 }

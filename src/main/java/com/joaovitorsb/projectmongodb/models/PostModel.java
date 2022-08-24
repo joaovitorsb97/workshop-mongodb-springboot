@@ -1,9 +1,12 @@
 package com.joaovitorsb.projectmongodb.models;
 
 import com.joaovitorsb.projectmongodb.dto.AuthorDTO;
+import com.joaovitorsb.projectmongodb.dto.CommentDTO;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class PostModel implements Serializable {
@@ -15,6 +18,8 @@ public class PostModel implements Serializable {
     private String body;
 
     private AuthorDTO author;
+
+    private List<CommentDTO> comments = new ArrayList<>();
 
     public PostModel() {
     }
@@ -65,6 +70,10 @@ public class PostModel implements Serializable {
 
     public void setAuthor(AuthorDTO author) {
         this.author = author;
+    }
+
+    public List<CommentDTO> getComments() {
+        return comments;
     }
 
     @Override
