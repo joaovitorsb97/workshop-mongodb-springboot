@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,17 @@ public class PostController {
     public ResponseEntity<List<PostModel>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text){ //@RequestParam(value = "text") gets after "?" from URL
         text = URL.decodeParam(text);
         List<PostModel> list = postService.findByTitleContainingIgnoreCase(text);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping(value = "/fullsearch")
+    public ResponseEntity<List<PostModel>> fullSearch(@RequestParam(value = "text", defaultValue = "") String text,
+                                                      @RequestParam(value = "minDate", defaultValue = "") String minDate,
+                                                      @RequestParam(value = "maxDate", defaultValue = "") String maxDate){ //@RequestParam(value = "text") gets after "?" from URL
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(minDate, new Date(0L));
+        Date max = URL.convertDate(maxDate, new Date());
+        List<PostModel> list = postService.fullSearch(text, min, max);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
